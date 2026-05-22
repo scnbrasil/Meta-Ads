@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Ads — Manual Completo</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --bg4: #22222e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #f0f0f8;
+    --text2: #9494b0;
+    --text3: #5a5a78;
+    --blue: #3b82f6;
+    --blue-dim: rgba(59,130,246,0.12);
+    --blue-glow: rgba(59,130,246,0.25);
+    --cyan: #06b6d4;
+    --cyan-dim: rgba(6,182,212,0.1);
+    --green: #10b981;
+    --green-dim: rgba(16,185,129,0.1);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.1);
+    --coral: #f43f5e;
+    --coral-dim: rgba(244,63,94,0.1);
+    --purple: #8b5cf6;
+    --purple-dim: rgba(139,92,246,0.1);
+    --accent: #3b82f6;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  h1,h2,h3,h4 { font-family: 'Syne', sans-serif; letter-spacing: -0.02em; }
+
+  /* LAYOUT */
+  .shell { display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-glow);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+  }
+  .logo-badge svg { width: 18px; height: 18px; fill: var(--blue); }
+  .logo-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--blue); letter-spacing: 0.05em; text-transform: uppercase; }
+  .logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  .nav-section { padding: 16px 12px 8px; }
+  .nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); padding: 0 8px; margin-bottom: 6px; }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    text-decoration: none;
+  }
+  .nav-item:hover { background: var(--bg3); color: var(--text); }
+  .nav-item.active { background: var(--blue-dim); color: var(--blue); border-color: var(--blue-glow); font-weight: 500; }
+  .nav-item svg { width: 15px; height: 15px; opacity: 0.7; flex-shrink: 0; }
+  .nav-item.active svg { opacity: 1; }
+
+  /* MAIN */
+  .main { flex: 1; overflow-y: auto; }
+  .page { display: none; padding: 36px 40px; max-width: 860px; }
+  .page.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  /* PAGE HEADER */
+  .page-header { margin-bottom: 36px; }
+  .page-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+  .page-title { font-size: 30px; font-weight: 800; color: var(--text); line-height: 1.1; margin-bottom: 10px; }
+  .page-desc { font-size: 14.5px; color: var(--text2); max-width: 560px; line-height: 1.6; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border2); }
+  .card-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .card-body { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+
+  /* STRUCTURE LEVELS */
+  .struct-wrap { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .struct-level {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+  }
+  .struct-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40px;
+    flex-shrink: 0;
+  }
+  .struct-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: var(--bg);
+    flex-shrink: 0;
+    margin-top: 18px;
+  }
+  .struct-connector {
+    width: 2px;
+    flex: 1;
+    min-height: 16px;
+    margin-bottom: -2px;
+  }
+  .struct-content {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid;
+    margin-bottom: 12px;
+    margin-left: 8px;
+  }
+  .struct-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .struct-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .struct-desc { font-size: 13px; color: var(--text2); }
+
+  /* HIGHLIGHT BOXES */
+  .alert {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid;
+    margin: 14px 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .alert svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+  .alert-blue { background: var(--blue-dim); border-color: rgba(59,130,246,0.25); color: #93c5fd; }
+  .alert-amber { background: var(--amber-dim); border-color: rgba(245,158,11,0.25); color: #fcd34d; }
+  .alert-green { background: var(--green-dim); border-color: rgba(16,185,129,0.25); color: #6ee7b7; }
+  .alert-coral { background: var(--coral-dim); border-color: rgba(244,63,94,0.25); color: #fda4af; }
+
+  /* GRID 2COL */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 16px 0; }
+  @media (max-width: 700px) { .grid2,.grid3 { grid-template-columns: 1fr; } }
+
+  /* BUDGET CARDS */
+  .budget-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .budget-card-head {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+  }
+  .budget-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .budget-label { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+  .budget-sub { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
+  .budget-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* ACCORDION MODULES */
+  .module-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .module-item:hover { border-color: var(--border2); }
+  .module-trigger {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .module-num {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .module-info { flex: 1; }
+  .module-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; }
+  .module-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .module-chevron {
+    width: 18px; height: 18px;
+    color: var(--text3);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .module-item.open .module-chevron { transform: rotate(180deg); }
+  .module-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .module-item.open .module-body { display: block; }
+
+  .sub-section { margin-top: 18px; }
+  .sub-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .body-text { font-size: 13.5px; color: var(--text2); line-height: 1.7; margin-bottom: 8px; }
+
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    margin: 3px 2px;
+  }
+
+  /* METRICS */
+  .search-wrap { position: relative; margin-bottom: 16px; }
+  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--text3); }
+  .search-input {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 11px 14px 11px 40px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--blue); }
+  .search-input::placeholder { color: var(--text3); }
+
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .filter-chip {
+    padding: 5px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .filter-chip:hover { background: var(--bg3); color: var(--text); }
+  .filter-chip.on { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+
+  .metric-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .metric-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .metric-card.expanded { border-color: var(--blue-glow); }
+  .metric-head {
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .metric-abbr { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
+  .metric-full-name { font-size: 11px; color: var(--text3); margin-top: 2px; font-style: italic; }
+  .metric-pt-name { font-size: 11.5px; color: var(--text2); margin-top: 1px; }
+  .metric-cat-badge {
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .metric-expand-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.2s;
+    border-top: 1px solid transparent;
+  }
+  .metric-card.expanded .metric-expand-body {
+    max-height: 600px;
+    border-top-color: var(--border);
+    padding: 14px 16px;
+  }
+  .metric-section { margin-bottom: 12px; }
+  .metric-section:last-child { margin-bottom: 0; }
+  .metric-sec-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 5px; }
+  .metric-sec-text { font-size: 12.5px; color: var(--text2); line-height: 1.6; }
+  .metric-formula {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 8px 12px;
+    color: var(--cyan);
+    margin: 6px 0;
+    font-style: italic;
+  }
+
+  /* CHECKLIST */
+  .checklist-section { margin-bottom: 28px; }
+  .checklist-section-title {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text3); margin-bottom: 12px;
+  }
+  .checklist-section-title span { flex: 1; }
+  .checklist-divider { height: 1px; background: var(--border); flex: 1; }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--border2); }
+  .check-item.done { opacity: 0.5; }
+  .checkmark {
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--border2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    margin-top: 1px;
+  }
+  .check-item.done .checkmark { background: var(--green); border-color: var(--green); }
+  .checkmark svg { width: 11px; height: 11px; stroke: #fff; display: none; }
+  .check-item.done .checkmark svg { display: block; }
+  .check-text { font-size: 13.5px; color: var(--text); flex: 1; line-height: 1.5; }
+  .check-note { font-size: 11.5px; color: var(--text3); margin-top: 3px; }
+  .progress-bar-wrap {
+    background: var(--bg3);
+    border-radius: 99px;
+    height: 6px;
+    overflow: hidden;
+    margin: 16px 0 28px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .progress-text { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
+
+  /* AB TEST PAGE */
+  .ab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .ab-card {
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid;
+  }
+  .ab-card-a { background: var(--blue-dim); border-color: rgba(59,130,246,0.3); }
+  .ab-card-b { background: var(--purple-dim); border-color: rgba(139,92,246,0.3); }
+  .ab-label { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+  .ab-label-a { color: var(--blue); }
+  .ab-label-b { color: var(--purple); }
+  .ab-rule { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content:''; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 22px; }
+  .tl-dot { position:absolute; left:-25px; top:4px; width:12px; height:12px; border-radius:50%; border:2px solid; background: var(--bg); }
+  .tl-head { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* PIXEL PAGE */
+  .pixel-flow { display: flex; align-items: center; gap: 0; margin: 20px 0; flex-wrap: wrap; }
+  .pf-box {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+  }
+  .pf-arrow { color: var(--text3); font-size: 18px; padding: 0 6px; flex-shrink: 0; }
+
+  /* FORMULA TABLE */
+  .formula-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .formula-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  .formula-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); color: var(--text2); }
+  .formula-table td:first-child { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--text); font-size: 14px; }
+  .formula-table tr:last-child td { border-bottom: none; }
+  .formula-table tr:hover td { background: var(--bg3); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+  /* STATS ROW */
+  .stats-row { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
+  .stat-box {
+    flex: 1;
+    min-width: 120px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-number { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
+  .stat-label { font-size: 11.5px; color: var(--text3); margin-top: 2px; }
+
+  /* COMPARISON TABLE */
+  .compare-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 16px 0; }
+  .compare-table th { background: var(--bg3); padding: 12px 16px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); text-align: left; border-bottom: 1px solid var(--border); }
+  .compare-table td { padding: 12px 16px; font-size: 13px; color: var(--text2); border-bottom: 1px solid var(--border); background: var(--bg2); }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td:first-child { font-weight: 600; color: var(--text); }
+
+  /* TOOLTIP (hover info) */
+  .has-tip { cursor: help; border-bottom: 1px dashed var(--text3); }
+
+  /* responsive */
+  @media (max-width: 640px) {
+    .sidebar { display: none; }
+    .page { padding: 24px 18px; }
+    .ab-grid { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr; }
+    .page-title { font-size: 22px; }
+  }
+
+  .tag-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
+
+  /* MOBILE NAV */
+  .mobile-nav { display: none; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 16px; overflow-x: auto; white-space: nowrap; gap: 6px; }
+  @media (max-width: 640px) { .mobile-nav { display: flex; } }
+  .mobile-nav-btn { padding: 7px 14px; border-radius: 8px; background: transparent; border: 1px solid var(--border); color: var(--text2); font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; }
+  .mobile-nav-btn.active { background: var(--blue-dim); border-color: var(--blue-glow); color: var(--blue); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 6.5h-2.5v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1h-2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"/></svg>
+        <span class="logo-title">Meta Ads</span>
+      </div>
+      <div class="logo-sub">Manual Completo · <span id="ano"></span></div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Fundamentos</div>
+      <a class="nav-item active" onclick="go('estrutura')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Estrutura da conta
+      </a>
+      <a class="nav-item" onclick="go('pixel')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Pixel & Rastreamento
+      </a>
+      <a class="nav-item" onclick="go('publicos')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Públicos & Segmentação
+      </a>
+      <a class="nav-item" onclick="go('criativos')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Criativos & Anúncios
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Avançado</div>
+      <a class="nav-item" onclick="go('testes')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        Testes A/B
+      </a>
+      <a class="nav-item" onclick="go('metricas')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Dicionário de Métricas
+      </a>
+      <a class="nav-item" onclick="go('checklist')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Checklist de lançamento
+      </a>
+    </div>
+
+    <div style="flex:1"></div>
+    <div style="padding:16px;border-top:1px solid var(--border);">
+      <div style="font-size:11px;color:var(--text3);line-height:1.5;">Baseado no minicurso de estruturação de campanhas · Meta Ads 2024</div>
+    </div>
+  </aside>
+
+  <!-- MOBILE NAV -->
+  <div style="flex:1;display:flex;flex-direction:column;">
+  <div class="mobile-nav">
+    <button class="mobile-nav-btn active" onclick="go('estrutura')">Estrutura</button>
+    <button class="mobile-nav-btn" onclick="go('pixel')">Pixel</button>
+    <button class="mobile-nav-btn" onclick="go('publicos')">Públicos</button>
+    <button class="mobile-nav-btn" onclick="go('criativos')">Criativos</button>
+    <button class="mobile-nav-btn" onclick="go('testes')">Testes A/B</button>
+    <button class="mobile-nav-btn" onclick="go('metricas')">Métricas</button>
+    <button class="mobile-nav-btn" onclick="go('checklist')">Checklist</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- PAGE: ESTRUTURA -->
+    <div id="page-estrutura" class="page active">
+      <div class="page-header">
+        <div class="page-eyebrow">Módulo 1</div>
+        <h1 class="page-title">Estrutura de uma conta Meta Ads</h1>
+        <p class="page-desc">O Meta Ads opera em 3 níveis hierárquicos. Cada um tem uma função específica — confundir esses papéis é a causa número 1 de campanhas que não performam.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-number" style="color:var(--blue)">3</div><div class="stat-label">Níveis hierárquicos</div></div>
+        <div class="stat-box"><div class="stat-number" style="color:var(--cyan)">1</div><div class="stat-label">Objetivo por campanha</div></div>
+        <div class="stat-box"><div class="stat-number" style="color:var(--green)">∞</div><div class="stat-label">Ad Sets por campanha</div></div>
+        <div class="stat-box"><div class="stat-number" style="color:var(--amber)">5</div><div class="stat-label">Interesses máx. por set</div></div>
+      </div>
+
+      <h2 style="font-size:16px;margin-bottom:16px;color:var(--text2)">Os 3 níveis da hierarquia</h2>
+
+      <div class="struct-wrap">
+        <div class="struct-level">
+          <div class="struct-line">
+            <div class="struct-dot" style="border-color:var(--blue);"></div>
+            <div class="struct-connector" style="background:linear-gradient(var(--blue),var(--cyan));"></div>
+          </div>
+          <div class="struct-content" style="background:var(--blue-dim);border-color:rgba(59,130,246,0.3);">
+            <div class="struct-tag" style="color:var(--blue)">Nível 1 · Campanha</div>
+            <div class="struct-name">🎯 Campanha</div>
+            <div class="struct-desc">Define o <strong>objetivo</strong>: o que você quer que o algoritmo otimize. Vendas, Tráfego, Leads, Engajamento, Awareness… A IA vai buscar exatamente o que você pedir.</div>
+          </div>
+        </div>
+        <div class="struct-level">
+          <div class="struct-line">
+            <div class="struct-dot" style="border-color:var(--cyan);margin-left:20px;"></div>
+            <div class="struct-connector" style="background:linear-gradient(var(--cyan),var(--purple));margin-left:20px;"></div>
+          </div>
+          <div class="struct-content" style="background:var(--cyan-dim);border-color:rgba(6,182,212,0.3);margin-left:20px;">
+            <div class="struct-tag" style="color:var(--cyan)">Nível 2 · Ad Set</div>
+            <div class="struct-name">👥 Conjunto de Anúncios</div>
+            <div class="struct-desc">Define <strong>para quem</strong> o anúncio vai aparecer, <strong>onde</strong> e <strong>quanto</strong> gastar. Aqui ficam: público-alvo, posicionamentos, orçamento (ABO), horário e otimização de entrega.</div>
+          </div>
+        </div>
+        <div class="struct-level">
+          <div class="struct-line">
+            <div class="struct-dot" style="border-color:var(--purple);margin-left:40px;"></div>
+          </div>
+          <div class="struct-content" style="background:var(--purple-dim);border-color:rgba(139,92,246,0.3);margin-left:40px;">
+            <div class="struct-tag" style="color:var(--purple)">Nível 3 · Ad</div>
+            <div class="struct-name">🖼 Anúncio (Criativo)</div>
+            <div class="struct-desc">O que o usuário <strong>vê na tela</strong>: imagem ou vídeo + copy + headline + botão CTA + URL de destino. É a interface final com o usuário.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-blue" style="margin-top:20px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div><strong>Regra da literalidade:</strong> o algoritmo entrega <em>exatamente</em> o que você pediu. Objetivo "Engajamento" = curtidas e comentários, não compras. Para vender, selecione <strong>Vendas</strong> obrigatoriamente.</div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Tipos de orçamento</h2>
+      <div class="grid2">
+        <div class="budget-card">
+          <div class="budget-card-head">
+            <div class="budget-icon" style="background:var(--blue-dim);color:var(--blue);">💡</div>
+            <div class="budget-label" style="color:var(--blue)">CBO</div>
+          </div>
+          <div class="budget-sub">Campaign Budget Optimization</div>
+          <div class="budget-desc">Orçamento definido na <strong>Campanha</strong>. O Meta distribui automaticamente entre os Ad Sets, priorizando os de melhor performance. Ideal para <strong>escalar</strong> campanhas vencedoras.</div>
+          <div class="alert alert-green" style="margin-top:12px;font-size:12px;padding:10px 12px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+            Melhor para: escalada, múltiplos públicos já validados
+          </div>
+        </div>
+        <div class="budget-card">
+          <div class="budget-card-head">
+            <div class="budget-icon" style="background:var(--amber-dim);color:var(--amber);">🎛</div>
+            <div class="budget-label" style="color:var(--amber)">ABO</div>
+          </div>
+          <div class="budget-sub">Ad Set Budget Optimization</div>
+          <div class="budget-desc">Orçamento definido em cada <strong>Ad Set</strong>. Você controla exatamente quanto vai para cada público. Ideal para <strong>testes A/B</strong> onde você precisa de dados comparativos precisos.</div>
+          <div class="alert alert-amber" style="margin-top:12px;font-size:12px;padding:10px 12px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+            Melhor para: testes, novos públicos, controle fino
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 21 2 21"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div><strong>Dica prática:</strong> Use <strong>orçamento diário</strong> e programe o início para as <strong>00h01 do dia seguinte</strong>. Isso garante que a verba seja distribuída uniformemente ao longo de 24 horas completas, sem desperdício no meio do dia.</div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Objetivos disponíveis e quando usar</h2>
+      <table class="compare-table">
+        <thead><tr><th>Objetivo</th><th>O que o algoritmo busca</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td>Vendas</td><td>Usuários com histórico de compra</td><td>Produto com checkout, e-commerce, oferta direta</td></tr>
+          <tr><td>Leads</td><td>Usuários propensos a preencher formulários</td><td>Captação de contatos, formulário nativo Meta</td></tr>
+          <tr><td>Tráfego</td><td>Usuários com tendência de clicar em links</td><td>Blog, artigo, página de conteúdo</td></tr>
+          <tr><td>Engajamento</td><td>Usuários que curtem, comentam, compartilham</td><td>Aquecimento de página, prova social</td></tr>
+          <tr><td>Awareness</td><td>Máximo alcance e memória de marca</td><td>Lançamentos, branding, grande audiência</td></tr>
+          <tr><td>Visualizações de vídeo</td><td>Usuários que assistem vídeos por mais tempo</td><td>Conteúdo educativo, topo de funil</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGE: PIXEL -->
+    <div id="page-pixel" class="page">
+      <div class="page-header">
+        <div class="page-eyebrow">Módulo 2</div>
+        <h1 class="page-title">Pixel da Meta — O cérebro da operação</h1>
+        <p class="page-desc">O Pixel é um código JavaScript instalado no site que envia dados de comportamento dos usuários de volta para o Meta. Sem ele, você anuncia no escuro.</p>
+      </div>
+
+      <h2 style="font-size:14px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Como o fluxo funciona</h2>
+      <div class="pixel-flow">
+        <div class="pf-box" style="background:var(--blue-dim);color:#93c5fd;border:1px solid rgba(59,130,246,.2);">👤 Usuário vê o anúncio</div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-box" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(6,182,212,.2);">🖱 Clica e acessa o site</div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-box" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(16,185,129,.2);">✅ Compra / Cadastro</div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-box" style="background:var(--purple-dim);color:#c4b5fd;border:1px solid rgba(139,92,246,.2);">📡 Pixel envia dados para o Meta</div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-box" style="background:var(--amber-dim);color:#fcd34d;border:1px solid rgba(245,158,11,.2);">🧠 Algoritmo fica mais inteligente</div>
+      </div>
+
+      <div class="grid2" style="margin-top:20px;">
+        <div class="card">
+          <div class="card-title" style="color:var(--blue)">📊 Medição & Otimização</div>
+          <div class="card-body">Registra quem comprou e manda essa informação de volta ao Ad Set. Quanto mais dados o Pixel envia, mais assertivo o conjunto de anúncios se torna. Meta mínimo: <strong>50 eventos/semana</strong> por Ad Set para sair da fase de aprendizado.</div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--cyan)">🎯 Criação de Públicos</div>
+          <div class="card-body">Permite criar audiências de remarketing: quem visitou o site, quem adicionou ao carrinho mas não comprou, quem visualizou uma página específica. São os públicos mais quentes e baratos.</div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--green)">🔁 Lookalike Audiences</div>
+          <div class="card-body">Com dados do Pixel, o Meta encontra pessoas <em>parecidas</em> com seus compradores atuais. Um Lookalike 1% de compradores é um dos públicos frios mais eficientes disponíveis.</div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="color:var(--purple)">📈 Atribuição & ROAS real</div>
+          <div class="card-body">Sem Pixel, você não sabe quais campanhas geraram vendas. Com ele, você vê o ROAS de cada campanha, Ad Set e anúncio — e pode otimizar com dados reais.</div>
+        </div>
+      </div>
+
+      <div class="alert alert-coral" style="margin-top:8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div><strong>Nunca use links de afiliado diretamente nos anúncios.</strong> O Meta bloqueia contas por isso. Você precisa de uma <strong>estrutura própria</strong>: domínio verificado + página hospedada por você + Pixel instalado nesse domínio.</div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Eventos padrão do Pixel</h2>
+      <table class="compare-table">
+        <thead><tr><th>Evento</th><th>Quando dispara</th><th>Importância</th></tr></thead>
+        <tbody>
+          <tr><td>Purchase</td><td>Confirmação de compra</td><td>🔴 Crítico — base do objetivo Vendas</td></tr>
+          <tr><td>InitiateCheckout</td><td>Início do checkout</td><td>🟠 Alto — remarketing de abandono</td></tr>
+          <tr><td>AddToCart</td><td>Produto adicionado ao carrinho</td><td>🟠 Alto — sinal de intenção forte</td></tr>
+          <tr><td>ViewContent</td><td>Visualização de página de produto</td><td>🟡 Médio — topo de funil</td></tr>
+          <tr><td>Lead</td><td>Formulário enviado</td><td>🔴 Crítico — para objetivo de Leads</td></tr>
+          <tr><td>CompleteRegistration</td><td>Cadastro concluído</td><td>🟡 Médio — SaaS, apps</td></tr>
+          <tr><td>Search</td><td>Busca no site</td><td>🟢 Baixo — informativo</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div><strong>Conversions API (CAPI):</strong> com as restrições de cookies de terceiros do iOS 14+, instale também a Conversions API no servidor para recuperar dados perdidos. Junto com o Pixel, aumenta a taxa de correspondência de eventos em até 30%.</div>
+      </div>
+    </div>
+
+    <!-- PAGE: PÚBLICOS -->
+    <div id="page-publicos" class="page">
+      <div class="page-header">
+        <div class="page-eyebrow">Módulo 3</div>
+        <h1 class="page-title">Públicos & Segmentação</h1>
+        <p class="page-desc">No Ad Set você define para quem o anúncio aparece. A qualidade da segmentação determina diretamente o CPM, a relevância e o custo por resultado.</p>
+      </div>
+
+      <h2 style="font-size:14px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Temperatura dos públicos</h2>
+      <div class="grid3">
+        <div class="card" style="border-top:3px solid var(--coral);">
+          <div class="card-title" style="color:var(--coral)">🔥 Quente</div>
+          <div class="card-body">Pessoas que já interagiram com você. Menor CPM, maior conversão. Base para remarketing. Exemplos:
+            <br><br>
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Visitantes do site</span>
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Adicionaram ao carrinho</span>
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Engajamento IG/FB</span>
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Visualizaram vídeo 75%</span>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--amber);">
+          <div class="card-title" style="color:var(--amber)">🌡 Morno</div>
+          <div class="card-body">Lookalike de compradores e visitantes. Conhecem o problema, não conhecem você. Excelente custo-benefício.
+            <br><br>
+            <span class="pill" style="background:var(--amber-dim);color:#fcd34d;">LAL 1% Compradores</span>
+            <span class="pill" style="background:var(--amber-dim);color:#fcd34d;">LAL 2% Email list</span>
+            <span class="pill" style="background:var(--amber-dim);color:#fcd34d;">LAL 3% Visitantes</span>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--blue);">
+          <div class="card-title" style="color:var(--blue)">🧊 Frio</div>
+          <div class="card-body">Interesses, dados demográficos e abertos. Maior alcance, menor conversão. Requer criativo muito forte.
+            <br><br>
+            <span class="pill" style="background:var(--blue-dim);color:#93c5fd;">Interesses paralelos</span>
+            <span class="pill" style="background:var(--blue-dim);color:#93c5fd;">Conjunto aberto</span>
+            <span class="pill" style="background:var(--blue-dim);color:#93c5fd;">Comportamentos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-amber" style="margin-top:4px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 21 2 21"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div><strong>Estratégia de fuga do leilão:</strong> não use apenas os interesses óbvios do seu nicho — todos os concorrentes fazem o mesmo, encarecendo o CPM. Teste interesses paralelos ou conjuntos <strong>abertos</strong> (sem interesse), deixando a IA encontrar o comprador.</div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Posicionamentos recomendados</h2>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">✅ Usar</div>
+          <div class="card-body">
+            <span class="pill" style="background:var(--green-dim);color:var(--green);">Feed Facebook</span>
+            <span class="pill" style="background:var(--green-dim);color:var(--green);">Feed Instagram</span>
+            <span class="pill" style="background:var(--green-dim);color:var(--green);">Stories Facebook</span>
+            <span class="pill" style="background:var(--green-dim);color:var(--green);">Stories Instagram</span>
+            <span class="pill" style="background:var(--green-dim);color:var(--green);">Reels Instagram</span>
+            <span class="pill" style="background:var(--green-dim);color:var(--green);">Reels Facebook</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">❌ Evitar</div>
+          <div class="card-body">
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Colunas laterais</span>
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Artigos instantâneos</span>
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Audience Network</span>
+            <span class="pill" style="background:var(--coral-dim);color:#fda4af;">Messenger</span>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Configurações demográficas</h2>
+      <table class="compare-table">
+        <thead><tr><th>Parâmetro</th><th>Recomendação</th><th>Motivo</th></tr></thead>
+        <tbody>
+          <tr><td>Idade mínima</td><td>18 anos (ou +21 para crédito)</td><td>Evita tráfego sem poder de compra</td></tr>
+          <tr><td>Idade máxima</td><td>Baseado na persona — não deixar em aberto</td><td>Reduz desperdício de verba</td></tr>
+          <tr><td>Localização</td><td>Cidades/estados com maior ticket médio</td><td>Concentrar orçamento onde converte</td></tr>
+          <tr><td>Idioma</td><td>Português (BR) obrigatório</td><td>Evita exibição fora do público-alvo</td></tr>
+          <tr><td>Gênero</td><td>Testar ambos antes de filtrar</td><td>Dados reais superam suposições</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGE: CRIATIVOS -->
+    <div id="page-criativos" class="page">
+      <div class="page-header">
+        <div class="page-eyebrow">Módulo 4</div>
+        <h1 class="page-title">Criativos & Anúncios</h1>
+        <p class="page-desc">O criativo é o único componente que o usuário realmente vê. É o maior driver de performance — criativos fracos destroem bons públicos.</p>
+      </div>
+
+      <h2 style="font-size:14px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Anatomia de um anúncio</h2>
+      <div class="card" style="background:var(--bg3);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:var(--blue-dim);border-radius:0 0 0 100%;opacity:.4;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;position:relative;">
+          <div>
+            <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+              <div style="font-size:11px;color:var(--blue);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">1 · Copy (Texto principal)</div>
+              <div style="font-size:13px;color:var(--text2);">Texto que aparece acima ou abaixo da mídia. Primeiro contato com o usuário. Deve ter gancho nos primeiros 125 caracteres (antes do "ver mais").</div>
+            </div>
+            <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+              <div style="font-size:11px;color:var(--cyan);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">2 · Mídia</div>
+              <div style="font-size:13px;color:var(--text2);">Imagem estática, carrossel ou vídeo. Principal elemento de parada do scroll. Nos primeiros 3 segundos o usuário decide se continua assistindo.</div>
+            </div>
+          </div>
+          <div>
+            <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+              <div style="font-size:11px;color:var(--purple);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">3 · Headline</div>
+              <div style="font-size:13px;color:var(--text2);">Título em negrito abaixo da mídia. Deve complementar a copy e reforçar a proposta de valor. Máximo 40 caracteres para não cortar.</div>
+            </div>
+            <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:14px;">
+              <div style="font-size:11px;color:var(--green);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">4 · CTA + URL</div>
+              <div style="font-size:13px;color:var(--text2);">Botão de destino. Escolha o CTA alinhado com o objetivo: "Saiba Mais", "Comprar Agora", "Cadastre-se". URL deve ter Pixel instalado.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Formatos e especificações</h2>
+      <table class="compare-table">
+        <thead><tr><th>Formato</th><th>Resolução ideal</th><th>Duração/Tamanho</th><th>Melhor para</th></tr></thead>
+        <tbody>
+          <tr><td>Feed estático</td><td>1080×1080 (quadrado) ou 1080×1350</td><td>Máx. 30MB</td><td>Produto com imagem de alto impacto</td></tr>
+          <tr><td>Stories/Reels</td><td>1080×1920 (vertical 9:16)</td><td>15–60s (Reels até 90s)</td><td>Demonstrações, depoimentos, UGC</td></tr>
+          <tr><td>Carrossel</td><td>1080×1080 por card (máx. 10)</td><td>—</td><td>Múltiplos produtos, funcionalidades</td></tr>
+          <tr><td>Vídeo Feed</td><td>1080×1080 ou 1080×1350</td><td>Ideal: 15–30s</td><td>VSL curta, prova social, problema/solução</td></tr>
+          <tr><td>Coleção</td><td>1:1 ou 4:5 + catálogo</td><td>—</td><td>E-commerce com catálogo de produtos</td></tr>
+        </tbody>
+      </table>
+
+      <div class="grid2" style="margin-top:8px;">
+        <div class="alert alert-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div><strong>Sem conta Instagram?</strong> Não precisa. Use a Página do Facebook — o anúncio roda perfeitamente em todas as redes com o mesmo nome e foto.</div>
+        </div>
+        <div class="alert alert-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <div><strong>Regra dos 3 segundos:</strong> o gancho do vídeo deve ser irresistível nos primeiros 3 segundos. Use texto na tela, movimento e um problema claro.</div>
+        </div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Tipos de copy que convertem</h2>
+      <div class="grid2">
+        <div class="card"><div class="card-title" style="color:var(--blue)">Problema → Agitação → Solução</div><div class="card-body">Apresente um problema que a persona tem, amplifique a dor, depois posicione seu produto como a solução. Framework PAS clássico e altamente eficaz.</div></div>
+        <div class="card"><div class="card-title" style="color:var(--cyan)">Prova social + CTA</div><div class="card-body">"Mais de 10.000 pessoas já usam X para resolver Y. Experimente grátis por 7 dias." Números reais e urgência leve convertem bem.</div></div>
+        <div class="card"><div class="card-title" style="color:var(--green)">Pergunta direta</div><div class="card-body">Comece com uma pergunta que a persona responde "sim" mentalmente. Cria identificação imediata e aumenta o CTR.</div></div>
+        <div class="card"><div class="card-title" style="color:var(--purple)">Depoimento em primeira pessoa</div><div class="card-body">Copie o formato de um depoimento real: "Eu estava gastando R$2.000/mês com X até descobrir Y…". Humaniza e gera identificação.</div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: TESTES -->
+    <div id="page-testes" class="page">
+      <div class="page-header">
+        <div class="page-eyebrow">Módulo 5</div>
+        <h1 class="page-title">Testes A/B & Escala</h1>
+        <p class="page-desc">Tráfego pago não é estático. Campanhas nunca devem ser criadas e abandonadas. O segredo está na duplicação controlada e variação de uma variável por vez.</p>
+      </div>
+
+      <div class="alert alert-blue" style="margin-bottom:24px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div><strong>Regra de ouro do teste:</strong> altere <strong>uma variável por vez</strong>. Se você muda o público E o criativo ao mesmo tempo, nunca saberá o que causou a diferença de resultado.</div>
+      </div>
+
+      <h2 style="font-size:16px;margin-bottom:16px;color:var(--text2)">O que testar em cada nível</h2>
+      <div class="ab-grid">
+        <div class="ab-card ab-card-a">
+          <div class="ab-label ab-label-a">Ad Set A</div>
+          <div style="font-size:12px;color:#93c5fd;margin-bottom:12px;">Mesmo criativo → público diferente</div>
+          <div class="ab-rule">Duplique o Ad Set. Mantenha o mesmo anúncio (vídeo/imagem) e copy. Altere <strong>apenas um</strong> destes:
+            <br>• Faixa etária
+            <br>• Interesse ou conjunto de interesses
+            <br>• Localização (estado/cidade)
+            <br>• Gênero
+            <br>• Lookalike vs Interesse
+          </div>
+        </div>
+        <div class="ab-card ab-card-b">
+          <div class="ab-label ab-label-b">Ad Set B</div>
+          <div style="font-size:12px;color:#c4b5fd;margin-bottom:12px;">Mesmo público → criativo diferente</div>
+          <div class="ab-rule">Duplique o Ad Set. Mantenha o mesmo público. Altere <strong>apenas um</strong> destes:
+            <br>• Vídeo (gancho diferente)
+            <br>• Imagem estática vs vídeo
+            <br>• Copy (abordagem diferente)
+            <br>• Headline
+            <br>• CTA (botão)
+          </div>
+        </div>
+      </div>
+
+      <h2 style="font-size:16px;margin:28px 0 14px;color:var(--text2)">Rotina semanal de otimização</h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot" style="border-color:var(--blue);"></div>
+          <div class="tl-head">Dias 1–3: Fase de aprendizado</div>
+          <div class="tl-body">Não mexa em nada. O algoritmo está aprendendo. Alterações nessa fase reiniciam o aprendizado e desperdiçam verba. Mínimo 50 eventos de conversão para sair dessa fase.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="border-color:var(--cyan);"></div>
+          <div class="tl-head">Dias 3–5: Primeira análise</div>
+          <div class="tl-body">Avalie CTR, CPC, CPM e custo por resultado. Se o CTR estiver abaixo de 0,5%, problema no criativo. Se CPM estiver muito alto, problema no público ou na relevância.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="border-color:var(--green);"></div>
+          <div class="tl-head">Dias 5–7: Decisão</div>
+          <div class="tl-body">Pause os perdedores. Duplique os vencedores com uma variação. Nunca pause um conjunto por ter CPA alto com volume baixo — espere dados suficientes (mínimo 30–50 cliques).</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="border-color:var(--amber);"></div>
+          <div class="tl-head">Escala: aumento de orçamento</div>
+          <div class="tl-body">Aumente <strong>máximo 20–30% do orçamento por vez</strong>, com intervalo de 72h entre aumentos. Subidas bruscas reiniciam a fase de aprendizado e disparam o CPM.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="border-color:var(--purple);"></div>
+          <div class="tl-head">Fadiga criativa</div>
+          <div class="tl-body">Quando CTR começa a cair e frequência sobe acima de 3–4, o público já está saturado. Crie novos criativos — mantenha o público vencedor, troque apenas o anúncio.</div>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <div><strong>Regra da duplicação:</strong> nunca edite um Ad Set que está performando bem. Duplique-o e faça as alterações na cópia. O original continua com o histórico de aprendizado intacto.</div>
+      </div>
+    </div>
+
+    <!-- PAGE: MÉTRICAS -->
+    <div id="page-metricas" class="page">
+      <div class="page-header">
+        <div class="page-eyebrow">Dicionário completo</div>
+        <h1 class="page-title">Métricas do Meta Ads</h1>
+        <p class="page-desc">Todas as métricas principais com definição, fórmula, interpretação isolada e combinada. Clique em qualquer card para expandir.</p>
+      </div>
+
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" type="search" id="metrics-search" placeholder="Buscar métrica... ex: CTR, ROAS, CPM" oninput="filterMetrics()">
+      </div>
+
+      <div class="filter-bar" id="filter-bar">
+        <button class="filter-chip on" data-cat="all" onclick="setFilter(this)">Todas</button>
+        <button class="filter-chip" data-cat="custo" onclick="setFilter(this)">💰 Custo</button>
+        <button class="filter-chip" data-cat="engajamento" onclick="setFilter(this)">👆 Engajamento</button>
+        <button class="filter-chip" data-cat="conversao" onclick="setFilter(this)">✅ Conversão</button>
+        <button class="filter-chip" data-cat="alcance" onclick="setFilter(this)">📡 Alcance</button>
+        <button class="filter-chip" data-cat="video" onclick="setFilter(this)">▶️ Vídeo</button>
+        <button class="filter-chip" data-cat="orcamento" onclick="setFilter(this)">⚙️ Orçamento</button>
+      </div>
+
+      <div class="metrics-grid" id="metrics-container"></div>
+    </div>
+
+    <!-- PAGE: CHECKLIST -->
+    <div id="page-checklist" class="page">
+      <div class="page-header">
+        <div class="page-eyebrow">Pré-lançamento</div>
+        <h1 class="page-title">Checklist de lançamento</h1>
+        <p class="page-desc">Clique para marcar cada item. Não publique nenhuma campanha sem passar por todos esses pontos.</p>
+      </div>
+
+      <div class="progress-text" id="progress-text">0 de 24 itens concluídos</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar"></div></div>
+
+      <div id="checklist-container"></div>
+    </div>
+
+  </main>
+  </div>
+</div>
+
+<script>
+document.getElementById("ano").textContent = new Date().getFullYear();
+// ===== NAVIGATION =====
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.mobile-nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + id + "'")) n.classList.add('active');
+  });
+  document.querySelectorAll('.mobile-nav-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) b.classList.add('active');
+  });
+  document.querySelector('.main').scrollTop = 0;
+}
+
+// ===== METRICS DATA =====
+const METRICS = [
+  {
+    abbr:'CTR', full:'Click-Through Rate', pt:'Taxa de Clique', cat:'engajamento',
+    formula:'CTR = (Cliques ÷ Impressões) × 100',
+    def:'Percentual de pessoas que clicaram no anúncio em relação ao total de exibições. Indica a atratividade do criativo para o público.',
+    alone:'CTR acima de 1,5% é considerado bom para tráfego frio. Abaixo de 0,5% indica criativo fraco ou desalinhamento com o público.',
+    combined:'CTR alto + CPM baixo = situação ideal. CTR alto + CPC alto = público caro mas engajado, avalie o ROAS. CTR baixo + CPM alto = problema crítico, troque o criativo ou o público.'
+  },
+  {
+    abbr:'CTR (link)', full:'Link Click-Through Rate', pt:'Taxa de Clique no Link', cat:'engajamento',
+    formula:'CTR Link = (Cliques no link ÷ Impressões) × 100',
+    def:'Percentual que clicou especificamente no link do anúncio (exclui curtidas e comentários). Mais preciso para medir intenção real de visita ao site.',
+    alone:'Melhor indicador de intenção do que o CTR geral. Acima de 1% é bom na maioria dos nichos.',
+    combined:'Se CTR geral alto + CTR link baixo: o criativo atrai engajamento superficial mas não converte em cliques para o site. Reveja o CTA e a copy.'
+  },
+  {
+    abbr:'CPC', full:'Cost Per Click', pt:'Custo por Clique', cat:'custo',
+    formula:'CPC = Valor gasto ÷ Número de cliques',
+    def:'Quanto você paga em média por cada clique no anúncio. Métrica fundamental para avaliar eficiência de campanhas de tráfego.',
+    alone:'Varia muito por nicho. CPC abaixo de R$0,80 é excelente para a maioria dos mercados brasileiros. Acima de R$3,00 merece atenção.',
+    combined:'CPC alto + CTR baixo = problema no criativo. CPC alto + CTR alto = público caro (CPM alto). Compare CPC com o ticket médio: se o ticket é R$200 e o CPC é R$2, a margem é boa.'
+  },
+  {
+    abbr:'CPM', full:'Cost Per Mille', pt:'Custo por Mil Impressões', cat:'custo',
+    formula:'CPM = (Valor gasto ÷ Impressões) × 1.000',
+    def:'Quanto você paga para o anúncio ser exibido 1.000 vezes. Reflete a demanda pelo público-alvo e a qualidade/relevância do anúncio.',
+    alone:'CPM alto indica público concorrido ou anúncio de baixa relevância. CPM muito baixo pode indicar público de baixa qualidade ou posicionamento ruim.',
+    combined:'CPM alto + CTR alto = público caro mas anúncio ressonando, pode ser lucrativo. CPM alto + CTR baixo = alarme vermelho. CPM caindo ao longo do tempo + frequência subindo = fadiga criativa.'
+  },
+  {
+    abbr:'CPA', full:'Cost Per Action', pt:'Custo por Ação (Conversão)', cat:'conversao',
+    formula:'CPA = Valor gasto ÷ Número de conversões',
+    def:'Quanto custa cada conversão desejada (compra, lead, cadastro). A métrica mais importante para avaliar lucratividade de uma campanha.',
+    alone:'O CPA ideal é sempre inferior ao seu lucro líquido por venda. CPA maior que o ticket do produto = campanha no prejuízo.',
+    combined:'Compare CPA com LTV: se o LTV é alto, um CPA maior ainda pode ser lucrativo. CPA crescendo + frequência subindo = fadiga de público. CPA crescendo + CTR estável = problema na página de destino.'
+  },
+  {
+    abbr:'ROAS', full:'Return On Ad Spend', pt:'Retorno sobre Investimento em Anúncios', cat:'conversao',
+    formula:'ROAS = Receita gerada ÷ Valor gasto em anúncios',
+    def:'Quantos reais você fatura para cada real investido em anúncios. ROAS de 3 = faturou R$3 para cada R$1 gasto.',
+    alone:'ROAS de break-even varia por margem do produto. Para e-commerce com margem de 40%, o ROAS mínimo é ~2,5x. Abaixo de 1x = prejuízo direto.',
+    combined:'ROAS alto com volume baixo pode não escalar. Combine com impressões: ROAS 5x com 10k impressões vs ROAS 3x com 1M impressões — o segundo pode ser mais valioso para o negócio.'
+  },
+  {
+    abbr:'CPL', full:'Cost Per Lead', pt:'Custo por Lead', cat:'conversao',
+    formula:'CPL = Valor gasto ÷ Número de leads gerados',
+    def:'Quanto custa cada lead (contato, cadastro, formulário) gerado pela campanha.',
+    alone:'Varia muito por segmento. B2B pode aceitar CPL de R$100+. Infoprodutos costumam trabalhar com CPL de R$3–15.',
+    combined:'CPL sozinho não define lucratividade. Calcule: CPL × (1 ÷ Taxa de fechamento) = CAC real. Se CAC < LTV × Margem, a campanha é lucrável.'
+  },
+  {
+    abbr:'Frequência', full:'Frequency', pt:'Frequência', cat:'alcance',
+    formula:'Frequência = Impressões ÷ Alcance único',
+    def:'Quantas vezes, em média, cada pessoa viu seu anúncio. Acompanha a saturação do público.',
+    alone:'Frequência acima de 3–4 em um curto período sinaliza fadiga criativa. O usuário já viu demais e passa a ignorar.',
+    combined:'Frequência subindo + CTR caindo = fadiga confirmada, troque o criativo. Frequência alta + CPM crescendo = público esgotado, expanda a segmentação. Monitorar sempre junto com CPM.'
+  },
+  {
+    abbr:'Alcance', full:'Reach', pt:'Alcance', cat:'alcance',
+    formula:'Alcance = número de pessoas únicas que viram o anúncio',
+    def:'Número de pessoas distintas que viram seu anúncio pelo menos uma vez. Diferente de impressões (que contam múltiplas exibições).',
+    alone:'Alcance alto com poucas conversões indica problema no funil de vendas (landing page) ou público incorreto para a oferta.',
+    combined:'Alcance ÷ Tamanho do público = % de saturação. Acima de 60–70% do público alcançado, expanda a segmentação. Compare alcance com frequência para entender se a distribuição é saudável.'
+  },
+  {
+    abbr:'Impressões', full:'Impressions', pt:'Impressões', cat:'alcance',
+    formula:'Impressões = total de exibições (inclui múltiplas para a mesma pessoa)',
+    def:'Número total de vezes que o anúncio foi exibido na tela de alguém. Uma pessoa pode gerar múltiplas impressões.',
+    alone:'Sozinha não diz muito. Use para calcular CPM, CTR e frequência.',
+    combined:'Impressões ÷ Alcance = Frequência. Impressões crescendo sem aumento de alcance = público saturando. Impressões altas com CTR baixo = problema no criativo, não no delivery.'
+  },
+  {
+    abbr:'VTR', full:'Video Through Rate', pt:'Taxa de Visualização de Vídeo', cat:'video',
+    formula:'VTR = (Visualizações completas ÷ Impressões) × 100',
+    def:'Percentual de pessoas que assistiram ao vídeo até um determinado ponto: 25%, 50%, 75% ou 100% do tempo total.',
+    alone:'VTR nos primeiros 3s alto indica gancho forte. Queda brusca entre 3s e 25% indica que o início prende mas o meio não sustenta.',
+    combined:'Cruze VTR em diferentes pontos para mapear onde as pessoas abandonam. Combine com CTR: vídeo com VTR 75% alto + CTR baixo = engaja mas não converte, problema no CTA.'
+  },
+  {
+    abbr:'ThruPlay', full:'ThruPlay', pt:'Visualização Completa', cat:'video',
+    formula:'ThruPlay = vídeo assistido até o fim (ou ≥15s para vídeos longos)',
+    def:'Contabiliza quando o usuário assiste ao vídeo inteiro ou pelo menos 15 segundos para vídeos mais longos. Métrica de retenção real.',
+    alone:'Indica qualidade e relevância do conteúdo. Custo por ThruPlay alto pode inviabilizar estratégias de aquecimento por vídeo.',
+    combined:'ThruPlay alto + CTR baixo = vídeo retentivo mas sem CTA eficaz. ThruPlay baixo + CTR alto = gancho forte mas vídeo longo demais. Combine com VTR para mapear pontos de abandono.'
+  },
+  {
+    abbr:'CPV', full:'Cost Per View', pt:'Custo por Visualização', cat:'video',
+    formula:'CPV = Valor gasto ÷ Número de visualizações (3s+)',
+    def:'Quanto você paga por cada visualização de vídeo de pelo menos 3 segundos. Métrica principal para campanhas de branding com vídeo.',
+    alone:'CPV abaixo de R$0,05 é considerado eficiente para campanhas de awareness. Acima de R$0,20 deve ser avaliado.',
+    combined:'CPV baixo + ThruPlay alto = vídeo muito eficiente. CPV baixo + ThruPlay baixo = o início prende mas o conteúdo não sustenta a atenção.'
+  },
+  {
+    abbr:'CTOR', full:'Click-To-Open Rate', pt:'Taxa de Clique por Abertura', cat:'engajamento',
+    formula:'CTOR = (Cliques ÷ Aberturas do anúncio) × 100',
+    def:'Percentual de pessoas que clicaram após consumir o conteúdo completo do anúncio. Indica qualidade da proposta de valor.',
+    alone:'Alto CTOR com baixo CTR geral sugere que o criativo não prende no primeiro contato, mas convence quem para para ver.',
+    combined:'Compare com CTR geral: se CTR geral baixo + CTOR alto = problema no gancho visual. Se CTR geral alto + CTOR baixo = gancho bom mas a oferta não convence.'
+  },
+  {
+    abbr:'Score de Relevância', full:'Quality/Engagement/Conversion Ranking', pt:'Pontuação de Relevância', cat:'engajamento',
+    formula:'Calculado internamente pelo Meta com base em feedback positivo vs negativo esperado',
+    def:'Indicador de 3 dimensões: qualidade do anúncio, taxa de engajamento e taxa de conversão esperada — comparados com outros anunciantes disputando o mesmo público.',
+    alone:'Ranking "Abaixo da média" eleva seu CPM — você paga mais para alcançar as mesmas pessoas que concorrentes com anúncios melhores.',
+    combined:'Qualidade baixa + Engajamento baixo + Conversão baixa = o anúncio é fraco em todos os aspectos. Prioridade máxima para reformulação do criativo e da copy.'
+  },
+  {
+    abbr:'CBO', full:'Campaign Budget Optimization', pt:'Otimização de Orçamento na Campanha', cat:'orcamento',
+    formula:'Modo de entrega — o Meta distribui o orçamento entre Ad Sets automaticamente',
+    def:'Com CBO ativo, você define um orçamento único na Campanha e o algoritmo decide quanto cada Ad Set recebe, priorizando os de melhor performance.',
+    alone:'Não é uma métrica numérica, mas um modo de entrega que afeta todas as outras métricas. O algoritmo pode "starvar" um Ad Set promissor em favor de um que já tem histórico.',
+    combined:'CBO funciona melhor com públicos de tamanho semelhante. Com públicos muito diferentes em tamanho, o Meta pode concentrar tudo no maior e ignorar nichos valiosos.'
+  },
+  {
+    abbr:'ABO', full:'Ad Set Budget Optimization', pt:'Otimização de Orçamento no Conjunto', cat:'orcamento',
+    formula:'Orçamento definido individualmente em cada Ad Set',
+    def:'Com ABO, você controla exatamente quanto dinheiro cada Ad Set recebe, independente da performance relativa. Ideal para testes onde dados comparativos precisos são necessários.',
+    alone:'Dá controle total mas exige mais gestão. Ad Sets perdedores continuam gastando até você pausá-los manualmente.',
+    combined:'Use ABO para validar públicos e criativos. Após identificar vencedores, migre para CBO para escalar de forma mais eficiente e automatizada.'
+  },
+  {
+    abbr:'LTV', full:'Lifetime Value', pt:'Valor do Tempo de Vida do Cliente', cat:'conversao',
+    formula:'LTV = Ticket médio × Número médio de compras × Tempo de retenção',
+    def:'Receita total esperada de um cliente ao longo de todo o relacionamento com a marca. Não vem do Meta — vem do seu CRM ou análise histórica.',
+    alone:'Sozinho define o CPA máximo que você pode pagar de forma sustentável: CPA_max = LTV × Margem de lucro.',
+    combined:'ROAS baixo + LTV alto pode ainda ser lucrativo. Exemplo: ROAS 1,5x em primeira compra + 3 recompras = ROAS real de 4,5x no ciclo completo. Sempre projete o LTV antes de pausar uma campanha aparentemente não lucrativa.'
+  },
+  {
+    abbr:'CAC', full:'Customer Acquisition Cost', pt:'Custo de Aquisição de Cliente', cat:'conversao',
+    formula:'CAC = Total investido em marketing ÷ Número de novos clientes',
+    def:'Custo total para adquirir um novo cliente, incluindo todos os canais de marketing. Mais amplo que o CPA (que considera apenas o canal pago).',
+    alone:'CAC < LTV é o critério mínimo de viabilidade de um negócio. CAC alto com LTV alto pode ainda ser saudável.',
+    combined:'Relação CAC:LTV ideal é 1:3 ou melhor. Se LTV = R$600 e CAC = R$150, a relação é 1:4 — saudável. Compare CAC por canal para otimizar a alocação de verba.'
+  },
+  {
+    abbr:'Parcela dos gastos', full:'Share of Voice / Spend Share', pt:'Parcela dos gastos no leilão', cat:'alcance',
+    formula:'% do orçamento que está sendo entregue vs orçamento configurado',
+    def:'Indica se seu orçamento está sendo totalmente entregue ou se há limitações (público pequeno demais, lance muito baixo, política de conteúdo).',
+    alone:'Entrega abaixo de 80% do orçamento diário indica problema: público muito restrito, lance insuficiente ou muitos anúncios em revisão.',
+    combined:'Entrega baixa + CPM alto = público muito disputado e o seu lance não está ganhando o leilão. Aumente o orçamento ou expanda a segmentação.'
+  }
+];
+
+const catColors = {
+  custo: {bg:'rgba(245,158,11,0.12)', color:'#fcd34d', label:'Custo'},
+  engajamento: {bg:'rgba(59,130,246,0.12)', color:'#93c5fd', label:'Engajamento'},
+  conversao: {bg:'rgba(16,185,129,0.12)', color:'#6ee7b7', label:'Conversão'},
+  alcance: {bg:'rgba(139,92,246,0.12)', color:'#c4b5fd', label:'Alcance'},
+  video: {bg:'rgba(244,63,94,0.12)', color:'#fda4af', label:'Vídeo'},
+  orcamento: {bg:'rgba(6,182,212,0.12)', color:'#67e8f9', label:'Orçamento'}
+};
+
+let activeFilter = 'all';
+
+function renderMetrics(list) {
+  const c = document.getElementById('metrics-container');
+  if (!list.length) { c.innerHTML = '<p style="color:var(--text3);font-size:13px;grid-column:1/-1;text-align:center;padding:40px 0;">Nenhuma métrica encontrada.</p>'; return; }
+  c.innerHTML = list.map((m, i) => {
+    const cc = catColors[m.cat] || catColors.engajamento;
+    return `<div class="metric-card" id="mc-${i}" onclick="toggleMetric(${i})">
+      <div class="metric-head">
+        <div>
+          <div class="metric-abbr">${m.abbr}</div>
+          <div class="metric-full-name">${m.full}</div>
+          <div class="metric-pt-name">${m.pt}</div>
+        </div>
+        <div>
+          <div class="metric-cat-badge" style="background:${cc.bg};color:${cc.color};">${cc.label}</div>
+        </div>
+      </div>
+      <div class="metric-expand-body">
+        <div class="metric-section">
+          <div class="metric-sec-label">Definição</div>
+          <div class="metric-sec-text">${m.def}</div>
+        </div>
+        <div class="metric-section">
+          <div class="metric-sec-label">Fórmula</div>
+          <div class="metric-formula">${m.formula}</div>
+        </div>
+        <div class="metric-section">
+          <div class="metric-sec-label">Interpretação isolada</div>
+          <div class="metric-sec-text">${m.alone}</div>
+        </div>
+        <div class="metric-section">
+          <div class="metric-sec-label">Combinada com outras métricas</div>
+          <div class="metric-sec-text">${m.combined}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleMetric(i) {
+  const card = document.getElementById('mc-' + i);
+  const isOpen = card.classList.contains('expanded');
+  document.querySelectorAll('.metric-card').forEach(c => c.classList.remove('expanded'));
+  if (!isOpen) card.classList.add('expanded');
+}
+
+function filterMetrics() {
+  const q = document.getElementById('metrics-search').value.toLowerCase();
+  let list = activeFilter === 'all' ? METRICS : METRICS.filter(m => m.cat === activeFilter);
+  if (q) list = list.filter(m => m.abbr.toLowerCase().includes(q) || m.full.toLowerCase().includes(q) || m.pt.toLowerCase().includes(q));
+  renderMetrics(list);
+}
+
+function setFilter(btn) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  activeFilter = btn.dataset.cat;
+  filterMetrics();
+}
+
+renderMetrics(METRICS);
+
+// ===== CHECKLIST DATA =====
+const CHECKLIST = [
+  { section: '🎯 Campanha', items: [
+    { text: 'Objetivo correto selecionado', note: 'Vendas para converter, Tráfego para cliques, Leads para captação' },
+    { text: 'Tipo de orçamento definido (CBO ou ABO)', note: 'ABO para testes, CBO para escalar' },
+    { text: 'Orçamento diário configurado', note: 'Não orçamento vitalício — mais previsível' },
+    { text: 'Início programado para 00h01 do dia seguinte', note: 'Garante distribuição em 24h completas' },
+  ]},
+  { section: '📡 Pixel & Rastreamento', items: [
+    { text: 'Pixel instalado no domínio próprio', note: 'Nunca em link de afiliado direto' },
+    { text: 'Evento de conversão principal configurado', note: 'Purchase, Lead ou CompleteRegistration' },
+    { text: 'Evento testado no Pixel Helper', note: 'Extensão do Chrome para validar disparo' },
+    { text: 'Domínio verificado no Business Manager', note: 'Obrigatório desde iOS 14' },
+    { text: 'CAPI (Conversions API) configurada', note: 'Recupera dados perdidos por bloqueio de cookies' },
+  ]},
+  { section: '👥 Público & Segmentação', items: [
+    { text: 'Público-alvo definido (remarketing, lookalike ou interesse)', note: '' },
+    { text: 'Máximo 5 interesses por conjunto', note: 'Mais que isso pulveriza o sinal' },
+    { text: 'Interesses paralelos testados', note: 'Não só os óbvios do nicho' },
+    { text: 'Localização e faixa etária ajustadas', note: 'Focar na maioria compradora real' },
+    { text: 'Posicionamentos manuais selecionados', note: 'Feed, Stories e Reels — desmarcar laterais' },
+  ]},
+  { section: '🖼 Criativo & Anúncio', items: [
+    { text: 'Mídia no formato correto por posicionamento', note: '1:1 para feed, 9:16 para Stories/Reels' },
+    { text: 'Copy com gancho nos primeiros 125 caracteres', note: 'O que aparece antes do "ver mais"' },
+    { text: 'Headline até 40 caracteres', note: 'Evita corte no mobile' },
+    { text: 'CTA alinhado com o objetivo', note: 'Comprar Agora / Saiba Mais / Cadastre-se' },
+    { text: 'URL de destino com Pixel ativo', note: 'Verifique o evento de conversão antes de publicar' },
+    { text: 'Preview em todos os posicionamentos revisado', note: 'Use o simulador no Gerenciador de Anúncios' },
+  ]},
+  { section: '📊 Análise & Otimização', items: [
+    { text: 'Métricas-alvo definidas (CTR mínimo, CPA máximo)', note: 'Defina antes de lançar para não tomar decisões emocionais' },
+    { text: 'Período de aprendizado respeitado (3–5 dias)', note: 'Não pausar nem editar nesse período' },
+    { text: 'Variável de teste isolada', note: 'Teste apenas uma coisa por vez' },
+    { text: 'Regra de automação configurada (opcional)', note: 'Pausar Ad Sets com CPA acima do limite' },
+  ]}
+];
+
+function renderChecklist() {
+  const c = document.getElementById('checklist-container');
+  let allItems = [];
+  c.innerHTML = CHECKLIST.map(sec => {
+    return `<div class="checklist-section">
+      <div class="checklist-section-title">
+        <span>${sec.section}</span>
+        <div class="checklist-divider"></div>
+      </div>
+      ${sec.items.map((item, j) => {
+        const id = allItems.length;
+        allItems.push(item);
+        return `<div class="check-item" id="ci-${id}" onclick="toggleCheck(${id})">
+          <div class="checkmark">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="1.5,6 5,9.5 10.5,2.5"/></svg>
+          </div>
+          <div>
+            <div class="check-text">${item.text}</div>
+            ${item.note ? `<div class="check-note">${item.note}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+  updateProgress();
+}
+
+let checkedItems = new Set();
+
+function toggleCheck(id) {
+  const el = document.getElementById('ci-' + id);
+  if (checkedItems.has(id)) {
+    checkedItems.delete(id);
+    el.classList.remove('done');
+  } else {
+    checkedItems.add(id);
+    el.classList.add('done');
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.check-item').length;
+  const done = checkedItems.size;
+  const pct = total > 0 ? (done / total) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${done} de ${total} itens concluídos`;
+}
+
+renderChecklist();
+</script>
+</body>
+</html>
